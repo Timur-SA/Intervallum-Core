@@ -1,0 +1,156 @@
+{
+  "sections": [
+    {
+      "id": "mechanics",
+      "title": "Механика",
+      "boss": "Ньютон",
+      "item": "Маятник Ньютона",
+      "item_id": "newton-pendulum",
+      "color": "#0ea5e9",
+      "topics": [
+        "uniform-motion",
+        "relativity",
+        "accelerated-motion",
+        "free-fall",
+        "momentum",
+        "mechanical-energy",
+        "work-power",
+        "lever",
+        "density"
+      ]
+    },
+    {
+      "id": "thermal",
+      "title": "Тепловые явления",
+      "boss": "лорд Кельвин",
+      "item": "Термометр",
+      "item_id": "thermometer",
+      "color": "#f59e0b",
+      "topics": [
+        "heat-amount",
+        "aggregate-states",
+        "heat-balance",
+        "thermal-energy",
+        "fuel-engines"
+      ]
+    },
+    {
+      "id": "electromagnetism",
+      "title": "Электромагнитные явления",
+      "boss": "Тесла",
+      "item": "Тесла-шар",
+      "item_id": "tesla-ball",
+      "color": "#8b5cf6",
+      "topics": [
+        "coulomb",
+        "charge-conservation",
+        "resistance",
+        "ohm",
+        "joule-lenz",
+        "ampere"
+      ]
+    }
+  ],
+  "topics": [
+    {
+      "id": "uniform-motion",
+      "title": "Равномерное прямолинейное движение",
+      "section": "mechanics"
+    },
+    {
+      "id": "relativity",
+      "title": "Относительность движения",
+      "section": "mechanics"
+    },
+    {
+      "id": "accelerated-motion",
+      "title": "Равноускоренное движение. Сила",
+      "section": "mechanics"
+    },
+    {
+      "id": "free-fall",
+      "title": "Свободное падение",
+      "section": "mechanics"
+    },
+    {
+      "id": "momentum",
+      "title": "Импульс. Закон сохранения импульса",
+      "section": "mechanics"
+    },
+    {
+      "id": "mechanical-energy",
+      "title": "Полная механическая энергия. ЗСЭ",
+      "section": "mechanics"
+    },
+    {
+      "id": "work-power",
+      "title": "Механическая работа и мощность",
+      "section": "mechanics"
+    },
+    {
+      "id": "lever",
+      "title": "Рычаг, блоки, момент силы",
+      "section": "mechanics"
+    },
+    {
+      "id": "density",
+      "title": "Плотность вещества",
+      "section": "mechanics"
+    },
+    {
+      "id": "heat-amount",
+      "title": "Количество теплоты, нагрев",
+      "section": "thermal"
+    },
+    {
+      "id": "aggregate-states",
+      "title": "Агрегатные состояния вещества, переходы",
+      "section": "thermal"
+    },
+    {
+      "id": "heat-balance",
+      "title": "Тепловой баланс",
+      "section": "thermal"
+    },
+    {
+      "id": "thermal-energy",
+      "title": "ЗСЭ в тепловых процессах",
+      "section": "thermal"
+    },
+    {
+      "id": "fuel-engines",
+      "title": "Сгорание топлива, тепловые двигатели и КПД",
+      "section": "thermal"
+    },
+    {
+      "id": "coulomb",
+      "title": "Взаимодействие зарядов, закон Кулона",
+      "section": "electromagnetism"
+    },
+    {
+      "id": "charge-conservation",
+      "title": "Закон сохранения электрического заряда",
+      "section": "electromagnetism"
+    },
+    {
+      "id": "resistance",
+      "title": "Сопротивление проводника",
+      "section": "electromagnetism"
+    },
+    {
+      "id": "ohm",
+      "title": "Закон Ома для участка цепи",
+      "section": "electromagnetism"
+    },
+    {
+      "id": "joule-lenz",
+      "title": "Закон Джоуля — Ленца",
+      "section": "electromagnetism"
+    },
+    {
+      "id": "ampere",
+      "title": "Сила Ампера",
+      "section": "electromagnetism"
+    }
+  ]
+}

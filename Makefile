@@ -15,3 +15,6 @@ api:
 
 train:
 	. .venv/bin/activate && intervallum-train --tasks examples/tasks.json --attempts examples/attempts.json --out examples/model.json
+
+analyze-oge:
+	. .venv/bin/activate && python scripts/analyze_oge_bank.py

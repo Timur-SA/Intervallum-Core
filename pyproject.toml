@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "intervallum-ml"
 version = "0.1.0"
-description = "Adaptive learning engine for Intervallum: FSRS memory, conjunctive IRT mastery, pedagogical task selection, and EGE readiness projection."
+description = "Intervallum Core: OGE/EGE task bank, adaptive selection, grading, FSRS memory and exam readiness."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }

@@ -256,6 +256,13 @@ def create_app(engine: IntervallumEngine | None = None) -> FastAPI:
             engine = IntervallumEngine(world.knowledge_units, world.tasks, EngineConfig())
     store = InMemoryStore(engine)
     app = FastAPI(title="Intervallum ML API", version="0.1.0")
+    try:
+        from .v2.api import create_v2_router
+
+        app.include_router(create_v2_router())
+    except Exception:
+        # v2 is optional if the OGE content bank is not present.
+        pass
 
     @app.get("/health")
     def health() -> dict:

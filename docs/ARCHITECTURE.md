@@ -153,3 +153,20 @@ nightly batch, with an anchored mean and guardrails.
 - `Q` matrix refinement;
 - off-policy weight tuning;
 - deep knowledge tracing only if justified.
+
+## v2 OGE data core
+
+The OGE track is a separate data plane under `src/intervallum_ml/v2/`:
+
+- `content/oge_2026/tasks.json` — 77 seed tasks;
+- `content/oge_2026/topics.json` — 3 sections, 20 topics, bosses;
+- `v2/content.py` — validation, public task projection, boss thresholds;
+- `v2/selector.py` — mixed-topic / mixed-type training selection with
+  new/hard marks and automatic difficulty targeting;
+- `v2/grading.py` — per-type scoring, XP, anti-farming, boss progress;
+- `v2/store.py` — in-memory user state;
+- `v2/api.py` — `/v2/select/train`, `/v2/grade`, `/v2/progress`,
+  `/v2/boss/{section}/defeat`.
+
+The v2 public task projection never returns correct option ids, card answers,
+reference force vectors or interactive target values.

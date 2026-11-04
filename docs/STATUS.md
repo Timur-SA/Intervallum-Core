@@ -20,13 +20,17 @@
 - [x] Versioned JSON model artefacts and JSONB state serialisation.
 - [x] FastAPI reference service with select/attempt/readiness.
 - [x] Optional FSRS weight optimizer wrapper.
-- [x] 83 tests, including property-based tests and synthetic parameter recovery.
+- [x] 96 tests, including property-based tests and synthetic parameter recovery.
 - [x] Real EGE/FIPI content bank: 1,145 tasks, 26 KUs, 471 media pages.
 - [x] Deterministic answer grading for all imported answer types.
 - [x] Stress test: 2,000 selections / 200 sessions / 2,000 attempts / 200 quota checks, 0 errors.
 - [x] Policy benchmark: adaptive selector beats random in 30/30 synthetic users.
 - [x] Behavioural student simulator with latent knowledge, hints, fatigue, dropout and edge profiles.
 - [x] Real-bank simulation: adaptive +68% true gain vs random; true p 0.73 vs 0.54.
+- [x] v2 OGE data core: 77 tasks, 20 topics, 3 sections, 6 task types.
+- [x] `/v2/select/train`, `/v2/grade`, `/v2/progress`, boss defeat.
+- [x] XP bonuses for new/hard tasks, anti-farming, boss thresholds.
+- [x] OGE coverage analytics and LLM-review prompt export.
 - [x] Dockerfile, compose, Makefile, CI.
 
 ## Deliberately deferred

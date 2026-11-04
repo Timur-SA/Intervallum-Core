@@ -8,7 +8,7 @@ exist”; the goal here is to make the residual risk explicit.
 
 ```text
 pytest -q
-83 tests passed
+96 tests passed
 
 pytest --cov=intervallum_ml
 90% statement coverage
@@ -101,6 +101,16 @@ exam readiness instead; keep `theta` internal.
 The simulator also showed that a very easy policy can produce learning gains
 close to adaptive if the assumed ZPD curve is too flat.  The simulator uses a
 sharper ZPD (σ = 0.12) so that the policy comparison is meaningful.
+
+## OGE v2 verification
+
+- 77 OGE tasks loaded: 20 single, 18 multi, 7 matching, 20 cards, 6 forces, 6 interactive.
+- 20 topics across 3 sections; automated coverage analytics found no empty topics.
+- Every task was graded against a constructed correct answer; all returned score 1.0.
+- Public task projection hides `correctOptionId`, `correctOptionIds`, card answers, force reference vectors and interactive target values.
+- XP bonuses for new/hard tasks and anti-farming were tested.
+- Boss threshold and section unlock were tested.
+- `/v2/select/train`, `/v2/grade`, `/v2/progress` and boss defeat are covered by API tests.
 
 ## What is still not proven
 
