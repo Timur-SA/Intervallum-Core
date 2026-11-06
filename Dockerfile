@@ -1,8 +1,8 @@
+# syntax=docker/dockerfile:1.7
 FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PIP_NO_CACHE_DIR=1
+    PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
@@ -13,7 +13,9 @@ COPY content ./content
 COPY docs ./docs
 COPY examples ./examples
 
-RUN pip install --no-cache-dir ".[api]"
+# BuildKit cache keeps downloaded wheels between rebuilds.
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install ".[api]"
 
 EXPOSE 8000
 
