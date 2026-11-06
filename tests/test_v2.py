@@ -18,6 +18,22 @@ def bank():
     return load_oge_bank(BANK_DIR)
 
 
+def force_vectors(payload):
+    vectors = []
+    for ref in payload["forceTask"]["refs"]:
+        region = ref["region"]
+        if region.get("kind") == "point":
+            x, y = region["x"], region["y"]
+        else:
+            x = (region["a"]["x"] + region["b"]["x"]) / 2
+            y = (region["a"]["y"] + region["b"]["y"]) / 2
+        vectors.append({
+            "type": ref["type"], "x": x, "y": y,
+            "dx": ref["dx"], "dy": ref["dy"],
+        })
+    return vectors
+
+
 def test_bank_loads_and_is_valid():
     b = bank()
     assert b.ok
@@ -64,7 +80,7 @@ def test_every_task_can_be_graded_correctly():
         elif task.type == TaskType.CARDS:
             answer = {"selfAssessment": 3}
         elif task.type == TaskType.FORCES:
-            answer = {"vectors": [{"type": ref["type"]} for ref in p["forceTask"]["refs"]]}
+            answer = {"vectors": force_vectors(p)}
         elif task.type == TaskType.INTERACTIVE:
             answer = {"value": p["physicsTask"]["find"]["value"]}
         else:
@@ -156,8 +172,11 @@ def test_v2_api_flow():
     elif task["type"] == "cards":
         answer = {"selfAssessment": 3}
     elif task["type"] == "forces":
-        refs = next(t for t in b.tasks.values() if t.id == task["id"]).payload["forceTask"]["refs"]
-        answer = {"vectors": [{"type": r["type"]} for r in refs]}
+        answer = {
+            "vectors": force_vectors(
+                next(t for t in b.tasks.values() if t.id == task["id"]).payload
+            )
+        }
     else:
         answer = {"value": next(t for t in b.tasks.values() if t.id == task["id"]).payload["physicsTask"]["find"]["value"]}
 

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from typing import Any
 
 from .content import BASE_XP, OgeBank
@@ -14,6 +15,37 @@ def _score_outcome(score: float) -> str:
     if score > 0.0:
         return "partial"
     return "wrong"
+
+
+def _region_origin(region: dict[str, Any]) -> tuple[float, float] | None:
+    if region.get("kind") == "point":
+        return float(region.get("x", 0)), float(region.get("y", 0))
+    if region.get("kind") == "segment":
+        a = region.get("a", {})
+        b = region.get("b", {})
+        return (float(a.get("x", 0)) + float(b.get("x", 0))) / 2, (
+            float(a.get("y", 0)) + float(b.get("y", 0))
+        ) / 2
+    return None
+
+
+def _inside_region(v: dict[str, Any], region: dict[str, Any]) -> bool:
+    x, y = v.get("x"), v.get("y")
+    if x is None or y is None:
+        return True
+    if region.get("kind") == "point":
+        return math.hypot(float(x) - float(region.get("x", 0)), float(y) - float(region.get("y", 0))) <= float(region.get("radius", 0))
+    if region.get("kind") == "segment":
+        a = region.get("a", {})
+        b = region.get("b", {})
+        ax, ay = float(a.get("x", 0)), float(a.get("y", 0))
+        bx, by = float(b.get("x", 0)), float(b.get("y", 0))
+        dx, dy = bx - ax, by - ay
+        denom = dx * dx + dy * dy
+        t = 0.0 if denom == 0 else max(0.0, min(1.0, ((float(x) - ax) * dx + (float(y) - ay) * dy) / denom))
+        px, py = ax + t * dx, ay + t * dy
+        return math.hypot(float(x) - px, float(y) - py) <= float(region.get("radius", 0))
+    return True
 
 
 def _card_grade(answer: dict[str, Any]) -> int:
@@ -84,20 +116,43 @@ def grade_task(
         correct_answer = {"answer": p.get("answer", ""), "grade": card_grade}
 
     elif task.type == TaskType.FORCES:
-        vectors = answer.get("vectors", answer.get("forces", []))
+        vectors = [v for v in answer.get("vectors", answer.get("forces", [])) if isinstance(v, dict)]
         refs = p.get("forceTask", {}).get("refs", [])
-        ref_types = {r.get("type") for r in refs}
-        drawn_types = {v.get("type") for v in vectors if isinstance(v, dict)}
-        if not ref_types:
+        ref_by_type = {r.get("type"): r for r in refs}
+        drawn_by_type = {v.get("type"): v for v in vectors}
+        if not ref_by_type:
             score = 0.0
         else:
-            bad = len(ref_types.symmetric_difference(drawn_types))
-            score = max(0.0, 1.0 - bad / len(ref_types))
+            bad = 0
+            for force_type, ref in ref_by_type.items():
+                drawn = drawn_by_type.get(force_type)
+                if drawn is None:
+                    bad += 1
+                    continue
+                if not _inside_region(drawn, ref.get("region", {})):
+                    bad += 1
+                    continue
+                dx, dy = float(drawn.get("dx", 0)), float(drawn.get("dy", 0))
+                rx, ry = float(ref.get("dx", 0)), float(ref.get("dy", 0))
+                length = math.hypot(dx, dy)
+                ref_length = math.hypot(rx, ry)
+                if length <= 0 or ref_length <= 0:
+                    bad += 1
+                    continue
+                cos = (dx * rx + dy * ry) / (length * ref_length)
+                if cos < math.cos(math.radians(15)):
+                    bad += 1
+                    continue
+                ratio = length / ref_length
+                if ratio < 1 / 1.8 or ratio > 1.8:
+                    bad += 1
+            bad += len(set(drawn_by_type) - set(ref_by_type))
+            score = max(0.0, 1.0 - bad / len(ref_by_type))
         attempts = int(answer.get("attempts", 1))
         if score > 0 and attempts > 1:
             score = max(0.0, score - 0.25 * (attempts - 1))
         correct_flag = score >= 1.0
-        correct_answer = {"forces": sorted(ref_types)}
+        correct_answer = {"forces": sorted(ref_by_type)}
 
     elif task.type == TaskType.INTERACTIVE:
         physics = p.get("physicsTask", {})
