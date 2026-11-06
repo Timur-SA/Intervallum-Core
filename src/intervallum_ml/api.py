@@ -12,6 +12,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from .config import EngineConfig
@@ -256,6 +257,13 @@ def create_app(engine: IntervallumEngine | None = None) -> FastAPI:
             engine = IntervallumEngine(world.knowledge_units, world.tasks, EngineConfig())
     store = InMemoryStore(engine)
     app = FastAPI(title="Intervallum ML API", version="0.1.0")
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=False,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
     try:
         from .v2.api import create_v2_router
 
